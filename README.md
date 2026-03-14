@@ -1,8 +1,8 @@
 # SPK Tool
 
-A command-line tool for extracting and repacking **SPK/MPK archive files** used by **Wolfenstein (2009)** (Raven Software / id Software).
+A tool for extracting and repacking **SPK/MPK archive files** used by **Wolfenstein (2009)** (Raven Software / id Software).
 
-The original community extractor ([Wolfenstein SPK MPK Extractor](https://forum.xentax.com)) could only **extract** archives. This tool adds full **repacking** support, making it ideal for modding and translation projects.
+The original community extractor ([Wolfenstein SPK MPK Extractor](https://www.moddb.com/games/wolfenstein/downloads/wolfenstein-spk-mpk-extractor-v02)) could only **extract** archives. This tool adds full **repacking** support, making it ideal for modding and translation projects.
 
 ## Features
 
@@ -61,43 +61,6 @@ python spk_tool.py batch-extract ./spk_files ./extracted
 python spk_tool.py batch-pack ./original_spk ./modified ./repacked
 ```
 
-## Modding Workflow
-
-Here's the typical workflow for modding Wolfenstein (2009) SPK files:
-
-```
-1. Extract original SPK    →  python spk_tool.py extract english.spk ./work
-2. Edit files (DDS, SGFX)  →  (use your favorite editor)
-3. Repack into new SPK     →  python spk_tool.py pack english.spk ./work ./english_new.spk
-4. Replace in game folder  →  copy english_new.spk to game directory
-```
-
-> **Note:** The `pack` command requires the **original archive** to read the chunk structure (file order, chunk types). It then reads the actual file data from your **source directory**.
-
-## SPK File Format
-
-SPK/MPK archives use the following binary structure:
-
-```
-[4 bytes]  File signature: 0x12C (300)
-
-For each chunk:
-  [4 bytes]  Chunk magic number (reversed, e.g. "TXTR" stored as "RTXT")
-  [4 bytes]  Uncompressed data size
-  [4 bytes]  Compressed data size (zlib)
-  [N bytes]  Zlib-compressed payload
-
-  The decompressed payload contains:
-    [4 bytes]         Number of files
-    For each file:
-      [N+1 bytes]     Null-terminated file path (without extension)
-      [4 bytes]       File size
-      [4 bytes]       File size (repeated)
-    [0-3 bytes]       Padding to 4-byte alignment
-    For each file:
-      [N bytes]       Raw file data
-      [0-3 bytes]     Padding to 4-byte alignment
-```
 
 ## Supported Chunk Types
 
@@ -121,9 +84,5 @@ For each chunk:
 
 ## Credits
 
-- Format research based on [Wolfenstein SPK MPK Extractor](https://forum.xentax.com) by daedalus (thx to asmxtx)
-- Repacking implementation by Bedirhan
-
-## License
-
-MIT License — see [LICENSE](LICENSE) for details.
+- Format research based on [Wolfenstein SPK MPK Extractor](https://www.moddb.com/games/wolfenstein/downloads/wolfenstein-spk-mpk-extractor-v02) by daedalus
+- Repacking implementation by dortkoldantaciz
